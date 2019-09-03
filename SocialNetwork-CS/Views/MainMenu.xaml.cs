@@ -1,6 +1,7 @@
 ﻿using SocialNetwork_CS.Communication;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,16 +15,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SocialNetwork_CS
+namespace SocialNetwork_CS.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainMenu.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainMenu : UserControl
     {
-        public MainWindow()
+        public MainMenu()
         {
             InitializeComponent();
+        }
+
+        private void Ok_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("testé");
+            new SocketManager().Launch();
         }
     }
 }
