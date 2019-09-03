@@ -35,7 +35,7 @@ namespace Server.Communication
                 {
                     var jsonStr = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
                     var obj = JsonConvert.DeserializeObject<TestObj>(jsonStr);
-                    Console.WriteLine($"{obj.Name} {obj.FirstName}");
+                    Console.WriteLine($"{obj.LastName} {obj.FirstName}");
 
                     //var message = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
                     //Console.WriteLine(message);

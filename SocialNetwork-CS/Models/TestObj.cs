@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Models
+namespace SocialNetwork_CS.Models
 {
     internal class TestObj
     {
@@ -15,5 +15,4 @@ namespace Server.Models
         [JsonProperty("firstName")]
         public string FirstName { get; set; }
     }
-
 }

@@ -1,4 +1,6 @@
 ﻿using SocialNetwork_CS.Communication;
+using SocialNetwork_CS.Models;
+using SocialNetwork_CS.Views.Routes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,14 +16,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static SocialNetwork_CS.Views.Routes.MainRoutes;
 
 namespace SocialNetwork_CS.Views
 {
+
     /// <summary>
     /// Interaction logic for MainMenu.xaml
     /// </summary>
     public partial class MainMenu : UserControl
     {
+        private SocketManager _socketManager = SocketManager.Instance;
+        public event EventHandler<PageType> PageChanged;
         public MainMenu()
         {
             InitializeComponent();
@@ -30,7 +36,22 @@ namespace SocialNetwork_CS.Views
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("testé");
-            new SocketManager().Launch();
+            _socketManager.RequestServer();
+        }
+
+        private void Club_Manager_Click(object sender, RoutedEventArgs e)
+        {
+            PageChanged?.Invoke(this, PageType.Club);
+        }
+
+        private void Member_Manager_Click(object sender, RoutedEventArgs e)
+        {
+            PageChanged?.Invoke(this, PageType.Member);
+        }
+
+        private void Sport_Manager_Click(object sender, RoutedEventArgs e)
+        {
+            PageChanged?.Invoke(this, PageType.Sport);
         }
     }
 }

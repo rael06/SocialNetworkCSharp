@@ -4,11 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views ="clr-namespace:SocialNetwork_CS.Views"
+        xmlns:man="clr-namespace:SocialNetwork_CS.Views.Managers"
         xmlns:local="clr-namespace:SocialNetwork_CS"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <views:MainMenu></views:MainMenu>
-        
+        <views:MainMenu
+            Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=0}" 
+            PageChanged="MainMenu_PageChanged">
+        </views:MainMenu>
+        <man:Club  
+                  Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=1}" 
+            PageChanged="MainMenu_PageChanged">
+        </man:Club>
+        <man:Member  
+                  Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=2}" 
+            PageChanged="MainMenu_PageChanged">
+        </man:Member>
+        <man:Sport  
+                  Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=3}" 
+            PageChanged="MainMenu_PageChanged">
+        </man:Sport>
     </Grid>
 </Window>

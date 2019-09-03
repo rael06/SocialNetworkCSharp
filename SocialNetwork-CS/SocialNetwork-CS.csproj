@@ -59,9 +59,24 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Communication\SocketManager.cs" />
+    <Compile Include="Converters\PageTypeConverter.cs" />
+    <Compile Include="Models\Club.cs" />
+    <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\Sport.cs" />
+    <Compile Include="Models\TestObj.cs" />
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Managers\Club.xaml.cs">
+      <DependentUpon>Club.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\Member.xaml.cs">
+      <DependentUpon>Member.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\Sport.xaml.cs">
+      <DependentUpon>Sport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Routes\MainRoutes.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +90,18 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\Club.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\Member.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\Sport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,7 +134,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
