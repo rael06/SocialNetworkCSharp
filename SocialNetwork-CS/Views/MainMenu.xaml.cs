@@ -1,4 +1,5 @@
-﻿using SocialNetwork_CS.Communication;
+﻿using Common.Communication;
+using SocialNetwork_CS.Communication;
 using SocialNetwork_CS.Models;
 using SocialNetwork_CS.Views.Routes;
 using System;
@@ -33,25 +34,25 @@ namespace SocialNetwork_CS.Views
             InitializeComponent();
         }
 
-        private void Ok_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("testé");
-            _socketManager.RequestServer();
-        }
-
         private void Club_Manager_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Club);
+            var command = new ClientCommand { CommandType = "read", CommandContent = "clubs" };
+            _socketManager.RequestServer(command);
         }
 
         private void Member_Manager_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Member);
+            var command = new ClientCommand { CommandType = "read", CommandContent = "members" };
+            _socketManager.RequestServer(command);
         }
 
         private void Sport_Manager_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Sport);
+            var command = new ClientCommand { CommandType = "read", CommandContent = "sports" };
+            _socketManager.RequestServer(command);
         }
     }
 }

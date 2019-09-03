@@ -1,6 +1,8 @@
-﻿using SocialNetwork_CS.Communication;
+﻿using Common.Communication;
+using SocialNetwork_CS.Communication;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,7 @@ namespace SocialNetwork_CS.Views.Managers
     /// </summary>
     public partial class Sport : UserControl
     {
+        public List<Sport> Sports { get; set; }
         private SocketManager _socketManager = SocketManager.Instance;
         public event EventHandler<PageType> PageChanged;
 
@@ -30,9 +33,18 @@ namespace SocialNetwork_CS.Views.Managers
             InitializeComponent();
         }
 
+        private void SetSports()
+        {
+            Sports = _socketManager.ServerResponse is List<Sport> ? _socketManager.ServerResponse as List<Sport> : new List<Sport>();
+            Debug.WriteLine("test");
+            foreach (Sport sport in Sports) Debug.WriteLine(sport.Name);
+        }
+
+
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Menu);
-        }        
+            SetSports();
+        }
     }
 }

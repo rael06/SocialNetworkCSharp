@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Common.Communication;
+using Newtonsoft.Json;
 using SocialNetwork_CS.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -15,12 +17,13 @@ namespace SocialNetwork_CS.Communication
     {
         private const int PORT = 10000;
         private Socket _socket;
+        public dynamic ServerResponse { get; set; }
 
         private static SocketManager _socketManager;
 
         private SocketManager()
         {
-                
+
         }
 
         public static SocketManager Instance =>
@@ -33,33 +36,48 @@ namespace SocialNetwork_CS.Communication
             _socket.Connect(ip);
         }
 
-        internal void RequestServer()
+        internal void RequestServer(ClientCommand command)
         {
             var thread = new Thread(() =>
             {
-                Send();
+                ServerResponse = Send(command);
             });
             thread.Start();
         }
 
 
-        private void Send()
+        private dynamic Send(ClientCommand command)
         {
-            var obj = new TestObj { LastName = "calitro", FirstName = "rael" };
-            var jsonObject = JsonConvert.SerializeObject(obj);
-            _socket.Send(Encoding.UTF8.GetBytes(jsonObject));
-
-            //_socket.Send(Encoding.UTF8.GetBytes(message));
+            var jsonToSend = JsonConvert.SerializeObject(command);
+            _socket.Send(Encoding.UTF8.GetBytes(jsonToSend));
 
             var buffer = new byte[_socket.ReceiveBufferSize];
             int bytesReceived = _socket.Receive(buffer);
             if (bytesReceived > 0)
             {
-                var jsonObj = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                var objReceived = JsonConvert.DeserializeObject<TestObj>(jsonObj);
-                Console.WriteLine($"{objReceived.FirstName} {objReceived.LastName}");
-
+                var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+                return ResponseTreatment(jsonReceived, command.CommandContent.ToString());
             }
+            return null;
+        }
+
+        private dynamic ResponseTreatment(string jsonReceived, string commandContent)
+        {
+            switch (commandContent)
+            {
+                case "sports":
+                    return JsonConvert.DeserializeObject<List<Sport>>(jsonReceived);
+
+                case "members":
+                    return JsonConvert.DeserializeObject<List<Member>>(jsonReceived);
+
+                case "clubs":
+                    return JsonConvert.DeserializeObject<List<Club>>(jsonReceived);
+
+                default:
+                    return null;
+            }
+
         }
 
         private IPAddress GetHostIPAddress()

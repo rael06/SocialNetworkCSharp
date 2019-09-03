@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Common.Communication;
+using Newtonsoft.Json;
 using Server.Models;
+using Server.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ namespace Server.Communication
     internal class ClientManager
     {
         private static Socket _clientSocket { get; set; }
+        public SocialNetworkCSContext Context = new SocialNetworkCSContext();
         public ClientManager(Socket socket)
         {
             _clientSocket = socket;
@@ -20,12 +23,12 @@ namespace Server.Communication
             listenThread.Start();
         }
 
-        private static void Send(Socket socket, string message)
+        private void Send(Socket socket, string message)
         {
             socket.Send(Encoding.UTF8.GetBytes(message));
         }
 
-        private static void Listen()
+        private void Listen()
         {
             while (true)
             {
@@ -34,15 +37,46 @@ namespace Server.Communication
                 if (bytesReceived > 0)
                 {
                     var jsonStr = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                    var obj = JsonConvert.DeserializeObject<TestObj>(jsonStr);
-                    Console.WriteLine($"{obj.LastName} {obj.FirstName}");
+                    var command = JsonConvert.DeserializeObject<ClientCommand>(jsonStr);
+                    Console.WriteLine($"La requête du client est de type : {command.CommandType} " +
+                        $"et contient {command.CommandContent}");
+
+                    var o = CommandTreatment(command);
+
 
                     //var message = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
                     //Console.WriteLine(message);
 
                     //string receivedMessage = $"{message} reçu";
-                    Send(_clientSocket, JsonConvert.SerializeObject(obj));
+                    Send(_clientSocket, JsonConvert.SerializeObject(o));
                 }
+            }
+        }
+
+        private object CommandTreatment(ClientCommand command)
+        {
+            switch (command.CommandType)
+            {
+                case "read":
+                    switch (command.CommandContent)
+                    {
+                        case "members":
+                            return null;
+
+                        case "clubs":
+                            return null;
+
+                        case "sports":
+                            foreach(Sport sport in Context.Sports.ToList()) Console.WriteLine(sport.Name);
+                            return Context.Sports.ToList();
+
+                        default:
+                            return null;
+                    }
+
+                default:
+                    return null;
+
             }
         }
     }
