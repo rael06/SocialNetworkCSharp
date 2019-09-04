@@ -4,7 +4,19 @@
              xmlns:local="clr-namespace:SocialNetwork_CS"
              xmlns:conv="clr-namespace:SocialNetwork_CS.Converters"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
-        <conv:PageTypeConverter x:Key="PageTypeConverter"></conv:PageTypeConverter>
-    </Application.Resources>
+	<Application.Resources>
+		<!--<conv:PageTypeConverter x:Key="PageTypeConverter"></conv:PageTypeConverter>-->
+
+		<Style x:Key="PageTitleStyle" TargetType="{x:Type TextBlock}">
+			<Setter Property="FontSize" Value="25"></Setter>
+			<Setter Property="HorizontalAlignment" Value="Center"></Setter>
+			<Setter Property="VerticalAlignment" Value="Center"></Setter>
+		</Style>
+		
+		<Style x:Key="StdButtonStyle" TargetType="{x:Type Button}">
+			<Setter Property="Width" Value="150"></Setter>
+			<Setter Property="Height" Value="40"></Setter>
+		</Style>
+		
+	</Application.Resources>
 </Application>

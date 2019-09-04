@@ -76,7 +76,6 @@
     <Compile Include="Views\Managers\SportManager.xaml.cs">
       <DependentUpon>SportManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Routes\MainRoutes.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
+    <Folder Include="Views\ItemEdition\MemberEdition\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

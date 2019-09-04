@@ -1,12 +1,13 @@
 ﻿using Common.Communication;
 using SocialNetwork_CS.Communication;
 using SocialNetwork_CS.Models;
-using SocialNetwork_CS.Views.Routes;
+using SocialNetwork_CS.Views.Managers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,42 +18,43 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static SocialNetwork_CS.Views.Routes.MainRoutes;
 
 namespace SocialNetwork_CS.Views
 {
 
-    /// <summary>
-    /// Interaction logic for MainMenu.xaml
-    /// </summary>
-    public partial class MainMenu : UserControl
-    {
-        private SocketManager _socketManager = SocketManager.Instance;
-        public event EventHandler<PageType> PageChanged;
-        public MainMenu()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for MainMenu.xaml
+	/// </summary>
+	public partial class MainMenu : Page
+	{
+		private SocketManager _socketManager = SocketManager.Instance;
+		private SportManager _sportManager;
+		public MainMenu()
+		{
+			InitializeComponent();
+		}
 
-        private void Club_Manager_Click(object sender, RoutedEventArgs e)
-        {
-            PageChanged?.Invoke(this, PageType.Club);
-            var command = new ClientCommand { CommandType = "read", CommandContent = "clubs" };
-            _socketManager.RequestServer(command);
-        }
+		private void Club_Manager_Click(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new ClubManager());
+			var command = new ClientCommand { CommandType = "read", CommandContent = "clubs" };
+			_socketManager.RequestServer(command);
+		}
 
-        private void Member_Manager_Click(object sender, RoutedEventArgs e)
-        {
-            PageChanged?.Invoke(this, PageType.Member);
-            var command = new ClientCommand { CommandType = "read", CommandContent = "members" };
-            _socketManager.RequestServer(command);
-        }
+		private void Member_Manager_Click(object sender, RoutedEventArgs e)
+		{
+			NavigationService.Navigate(new MemberManager());
+			var command = new ClientCommand { CommandType = "read", CommandContent = "members" };
+			_socketManager.RequestServer(command);
+		}
 
-        private void Sport_Manager_Click(object sender, RoutedEventArgs e)
-        {
-            PageChanged?.Invoke(this, PageType.Sport);
-            var command = new ClientCommand { CommandType = "read", CommandContent = "sports" };
-            _socketManager.RequestServer(command);
-        }
-    }
+		private void Sport_Manager_Click(object sender, RoutedEventArgs e)
+		{
+			var command = new ClientCommand { CommandType = "read", CommandContent = "sports" };
+			_socketManager.RequestServer(command);
+			while (_socketManager.ServerResponse == null) Debug.WriteLine("loading");
+			_sportManager = new SportManager(_socketManager.ServerResponse);
+			NavigationService.Navigate(_sportManager);
+		}
+	}
 }

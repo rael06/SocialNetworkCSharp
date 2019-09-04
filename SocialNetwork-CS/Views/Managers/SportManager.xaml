@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SocialNetwork_CS.Views.Managers.SportManager"
+﻿<Page x:Class="SocialNetwork_CS.Views.Managers.SportManager"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,24 +6,52 @@
              xmlns:local="clr-namespace:SocialNetwork_CS.Views.Managers"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="100"></RowDefinition>
-        </Grid.RowDefinitions>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
 
-        <Button Grid.Row="0" Content="Load Data" Height="40" Width="150" HorizontalAlignment="Left" Click="LoadData_Click"></Button>
-        <TextBlock Text="Sport Manager" FontSize="50" HorizontalAlignment="Center"></TextBlock>
-        <ListView Grid.Row="1" Margin="10" ItemsSource="{Binding Sports}"  MouseLeftButtonDown="ListView_MouseLeftButtonDown">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel>
-                        <TextBlock Text="{Binding Name}"/>
-                    </WrapPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Grid.Row="2" Content="Retour" Height="40" Width="150" Click="Back_Click"></Button>
-    </Grid>
-</UserControl>
+		<TextBlock Text="Sport Manager" Style="{StaticResource PageTitleStyle}"></TextBlock>
+		<Grid Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="50"></RowDefinition>
+					<RowDefinition Height="*"></RowDefinition>
+				</Grid.RowDefinitions>
+				<Button Style="{StaticResource StdButtonStyle}" Content="Créer" HorizontalAlignment="Left" 
+			  Margin="10 0" Click="CreateItem"></Button>
+
+				<ListView Grid.Row="1" Margin="10" ItemsSource="{Binding Data}" SelectionChanged="ListView_ItemSelection">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<WrapPanel>
+								<TextBlock Text="{Binding Name}"/>
+							</WrapPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
+			</Grid>
+			<Grid Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"></RowDefinition>
+					<RowDefinition Height="50"></RowDefinition>
+				</Grid.RowDefinitions>
+
+				<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<TextBlock Text="Name :" FontSize="20" Margin="0 0 25 0" VerticalAlignment="Center"></TextBlock>
+					<TextBox Text="{Binding Sport.Name}" Height="40" VerticalContentAlignment="Center" FontSize="20" Width="250"></TextBox>
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+					<Button Style="{StaticResource StdButtonStyle}" Content="Delete" Margin="0 0 50 0"></Button>
+					<Button Style="{StaticResource StdButtonStyle}" Content="Update"></Button>
+				</StackPanel>
+			</Grid>
+		</Grid>
+	</Grid>
+</Page>

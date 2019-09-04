@@ -4,6 +4,7 @@ using SocialNetwork_CS.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -17,40 +18,55 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static SocialNetwork_CS.Views.Routes.MainRoutes;
 
 namespace SocialNetwork_CS.Views.Managers
 {
-    /// <summary>
-    /// Interaction logic for SportManager.xaml
-    /// </summary>
-    public partial class SportManager : UserControl
-    {
-        private SocketManager _socketManager = SocketManager.Instance;
+	/// <summary>
+	/// Interaction logic for SportManager.xaml
+	/// </summary>
+	public partial class SportManager : Page, INotifyPropertyChanged
+	{
+		private SocketManager _socketManager = SocketManager.Instance;
+		public List<Sport> Data { get; set; }
 
-        public event EventHandler<PageType> PageChanged;
-        public List<Sport> Sports { get; set; }
-        public SportManager()
-        {
-            InitializeComponent();
-            MouseLeftButtonDown += new MouseButtonEventHandler(ListView_MouseLeftButtonDown);
-        }
+		#region Sport
+		private Sport _sport = new Sport();
+		public Sport Sport
+		{
+			get { return _sport; }
+			set
+			{
+				if (_sport != value)
+				{
+					_sport = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_sport)));
+				}
+			}
+		}
+		#endregion
 
-        private void ListView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var item = (sender as ListView).SelectedItems;
-            Debug.WriteLine(item.GetType().Name);
-        }
+		public event PropertyChangedEventHandler PropertyChanged;
+		public SportManager()
+		{
+			InitializeComponent();
+		}
 
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            PageChanged?.Invoke(this, PageType.Menu);
-        }
+		public SportManager(object data) : this()
+		{
+			DataContext = this;
+			Data = data as List<Sport>;
+		}
 
-        private void LoadData_Click(object sender, RoutedEventArgs e)
-        {
-            Sports = _socketManager.ServerResponse;
-            foreach (Sport sport in Sports) Debug.WriteLine(sport.Name);
-        }
-    }
+		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
+		{
+			var item = (sender as ListView).SelectedItem as Sport;
+			Sport = item;
+			Debug.WriteLine(item.Name);
+		}
+
+		private void CreateItem(object sender, RoutedEventArgs e)
+		{
+
+		}
+	}
 }
