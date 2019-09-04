@@ -27,7 +27,22 @@ namespace SocialNetwork_CS.Views.Managers
 	public partial class SportManager : Page, INotifyPropertyChanged
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
-		public ObservableCollection<Sport> Data { get; set; } = new ObservableCollection<Sport>();
+
+		#region Data
+		private ObservableCollection<Sport> _data = new ObservableCollection<Sport>();
+		public ObservableCollection<Sport> Data
+		{
+			get { return _data; }
+			set
+			{
+				if (_data != value)
+				{
+					_data = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Data)));
+				}
+			}
+		}
+		#endregion
 
 		#region Sport
 		private Sport _sport = new Sport();
@@ -39,7 +54,7 @@ namespace SocialNetwork_CS.Views.Managers
 				if (_sport != value)
 				{
 					_sport = value;
-					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(_sport)));
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sport)));
 				}
 			}
 		}
@@ -49,12 +64,13 @@ namespace SocialNetwork_CS.Views.Managers
 		public SportManager()
 		{
 			InitializeComponent();
+			DataContext = this;
+			_socketManager.RequestCompleted += SetData;
 		}
 
-		public SportManager(ObservableCollection<Sport> sports) : this()
+		private void SetData(object sender, PropertyChangedEventArgs e)
 		{
-			DataContext = this;
-			foreach (Sport s in sports) Data.Add(s);
+			Data = _socketManager.ServerResponse as ObservableCollection<Sport>;
 		}
 
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)

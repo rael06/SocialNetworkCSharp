@@ -53,8 +53,7 @@ namespace SocialNetwork_CS.Views
 		{
 			var command = new ClientCommand { CommandType = "read", CommandContent = "sports" };
 			_socketManager.RequestServer(command);
-			while (_socketManager.ServerResponse == null) Debug.WriteLine("loading");
-			_sportManager = new SportManager(_socketManager.ServerResponse);
+			_sportManager = new SportManager();
 			NavigationService.Navigate(_sportManager);
 		}
 	}
