@@ -38,21 +38,21 @@ namespace SocialNetwork_CS.Views
 		private void Club_Manager_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new ClubManager());
-			var command = new ClientCommand { CommandType = "read", CommandContent = "clubs" };
-			_socketManager.RequestServer(command);
+			var request = new Request { RequestType = "read", RequestContent = "clubs" };
+			_socketManager.RequestServer(request);
 		}
 
 		private void Member_Manager_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new MemberManager());
-			var command = new ClientCommand { CommandType = "read", CommandContent = "members" };
-			_socketManager.RequestServer(command);
+			var request = new Request { RequestType = "read", RequestContent = "members" };
+			_socketManager.RequestServer(request);
 		}
 
 		private void Sport_Manager_Click(object sender, RoutedEventArgs e)
 		{
-			var command = new ClientCommand { CommandType = "read", CommandContent = "sports" };
-			_socketManager.RequestServer(command);
+			var request = new Request { RequestType = "read", RequestContent = "sports" };
+			_socketManager.RequestServer(request);
 			_sportManager = new SportManager();
 			NavigationService.Navigate(_sportManager);
 		}

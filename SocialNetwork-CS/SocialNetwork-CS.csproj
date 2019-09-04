@@ -63,7 +63,6 @@
     <Compile Include="Models\Club.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Sport.cs" />
-    <Compile Include="Models\TestObj.cs" />
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>

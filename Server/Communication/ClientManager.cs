@@ -37,28 +37,22 @@ namespace Server.Communication
                 if (bytesReceived > 0)
                 {
                     var jsonStr = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                    var command = JsonConvert.DeserializeObject<ClientCommand>(jsonStr);
-                    Console.WriteLine($"La requête du client est de type : {command.CommandType} " +
-                        $"et contient {command.CommandContent}");
+                    var request = JsonConvert.DeserializeObject<Request>(jsonStr);
+                    Console.WriteLine($"La requête du client est de type : {request.RequestType} " +
+                        $"et contient {request.RequestContent}");
 
-                    var o = CommandTreatment(command);
-
-
-                    //var message = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                    //Console.WriteLine(message);
-
-                    //string receivedMessage = $"{message} reçu";
-                    Send(_clientSocket, JsonConvert.SerializeObject(o));
+                    var response = RequestTreatment(request);
+                    Send(_clientSocket, JsonConvert.SerializeObject(response));
                 }
             }
         }
 
-        private object CommandTreatment(ClientCommand command)
+        private object RequestTreatment(Request request)
         {
-            switch (command.CommandType)
+            switch (request.RequestType)
             {
                 case "read":
-                    switch (command.CommandContent)
+                    switch (request.RequestContent)
                     {
                         case "members":
                             return null;
@@ -66,8 +60,7 @@ namespace Server.Communication
                         case "clubs":
                             return null;
 
-                        case "sports":
-                            foreach(Sport sport in Context.Sports.ToList()) Console.WriteLine(sport.Name);
+                        case "sports":                            
                             return Context.Sports.ToList();
 
                         default:

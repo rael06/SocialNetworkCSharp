@@ -55,19 +55,19 @@ namespace SocialNetwork_CS.Communication
 			_socket.Connect(ip);
 		}
 
-		internal void RequestServer(ClientCommand command)
+		internal void RequestServer(Request request)
 		{
 			var thread = new Thread(() =>
 			{
-				Send(command);
+				Send(request);
 			});
 			thread.Start();
 		}
 
 
-		private void Send(ClientCommand command)
+		private void Send(Request request)
 		{
-			var jsonToSend = JsonConvert.SerializeObject(command);
+			var jsonToSend = JsonConvert.SerializeObject(request);
 			_socket.Send(Encoding.UTF8.GetBytes(jsonToSend));
 
 			var buffer = new byte[_socket.ReceiveBufferSize];
@@ -75,13 +75,13 @@ namespace SocialNetwork_CS.Communication
 			if (bytesReceived > 0)
 			{
 				var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-				ResponseTreatment(jsonReceived, command.CommandContent.ToString());
+				ResponseTreatment(jsonReceived, request.RequestContent.ToString());
 			}
 		}
 
-		private void ResponseTreatment(string jsonReceived, string commandContent)
+		private void ResponseTreatment(string jsonReceived, string requestContent)
 		{
-			switch (commandContent)
+			switch (requestContent)
 			{
 				case "sports":
 					ServerResponse = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(jsonReceived);
