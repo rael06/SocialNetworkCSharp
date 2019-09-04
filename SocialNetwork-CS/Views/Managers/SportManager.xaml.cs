@@ -27,7 +27,7 @@ namespace SocialNetwork_CS.Views.Managers
 	public partial class SportManager : Page, INotifyPropertyChanged
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
-		public List<Sport> Data { get; set; }
+		public ObservableCollection<Sport> Data { get; set; } = new ObservableCollection<Sport>();
 
 		#region Sport
 		private Sport _sport = new Sport();
@@ -51,17 +51,17 @@ namespace SocialNetwork_CS.Views.Managers
 			InitializeComponent();
 		}
 
-		public SportManager(object data) : this()
+		public SportManager(ObservableCollection<Sport> sports) : this()
 		{
 			DataContext = this;
-			Data = data as List<Sport>;
+			foreach (Sport s in sports) Data.Add(s);
 		}
 
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
 		{
 			var item = (sender as ListView).SelectedItem as Sport;
 			Sport = item;
-			Debug.WriteLine(item.Name);
+			Debug.WriteLine(Sport.Name);
 		}
 
 		private void CreateItem(object sender, RoutedEventArgs e)

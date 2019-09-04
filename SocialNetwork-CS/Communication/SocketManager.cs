@@ -66,7 +66,7 @@ namespace SocialNetwork_CS.Communication
             switch (commandContent)
             {
                 case "sports":
-                    ServerResponse = JsonConvert.DeserializeObject<List<Sport>>(jsonReceived);
+                    ServerResponse = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(jsonReceived);
                     break;
 
                 case "members":
