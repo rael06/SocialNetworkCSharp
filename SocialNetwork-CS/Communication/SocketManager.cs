@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using SocialNetwork_CS.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -40,13 +41,13 @@ namespace SocialNetwork_CS.Communication
         {
             var thread = new Thread(() =>
             {
-                ServerResponse = Send(command);
+                Send(command);
             });
             thread.Start();
         }
 
 
-        private dynamic Send(ClientCommand command)
+        private void Send(ClientCommand command)
         {
             var jsonToSend = JsonConvert.SerializeObject(command);
             _socket.Send(Encoding.UTF8.GetBytes(jsonToSend));
@@ -56,26 +57,25 @@ namespace SocialNetwork_CS.Communication
             if (bytesReceived > 0)
             {
                 var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-                return ResponseTreatment(jsonReceived, command.CommandContent.ToString());
+                ResponseTreatment(jsonReceived, command.CommandContent.ToString());
             }
-            return null;
         }
 
-        private dynamic ResponseTreatment(string jsonReceived, string commandContent)
+        private void ResponseTreatment(string jsonReceived, string commandContent)
         {
             switch (commandContent)
             {
                 case "sports":
-                    return JsonConvert.DeserializeObject<List<Sport>>(jsonReceived);
+                    ServerResponse = JsonConvert.DeserializeObject<List<Sport>>(jsonReceived);
+                    break;
 
                 case "members":
-                    return JsonConvert.DeserializeObject<List<Member>>(jsonReceived);
+                    ServerResponse = JsonConvert.DeserializeObject<List<Member>>(jsonReceived);
+                    break;
 
                 case "clubs":
-                    return JsonConvert.DeserializeObject<List<Club>>(jsonReceived);
-
-                default:
-                    return null;
+                    ServerResponse = JsonConvert.DeserializeObject<List<Club>>(jsonReceived);
+                    break;
             }
 
         }

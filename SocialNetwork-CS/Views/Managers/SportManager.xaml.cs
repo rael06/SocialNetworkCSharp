@@ -1,6 +1,10 @@
-﻿using SocialNetwork_CS.Communication;
+﻿using Common.Communication;
+using SocialNetwork_CS.Communication;
+using SocialNetwork_CS.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,25 +22,35 @@ using static SocialNetwork_CS.Views.Routes.MainRoutes;
 namespace SocialNetwork_CS.Views.Managers
 {
     /// <summary>
-    /// Interaction logic for Club.xaml
+    /// Interaction logic for SportManager.xaml
     /// </summary>
-    public partial class Club : UserControl
+    public partial class SportManager : UserControl
     {
         private SocketManager _socketManager = SocketManager.Instance;
+
         public event EventHandler<PageType> PageChanged;
-        public Club()
+        public List<Sport> Sports { get; set; }
+        public SportManager()
         {
             InitializeComponent();
+            MouseLeftButtonDown += new MouseButtonEventHandler(ListView_MouseLeftButtonDown);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ListView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            var item = (sender as ListView).SelectedItems;
+            Debug.WriteLine(item.GetType().Name);
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Menu);
+        }
+
+        private void LoadData_Click(object sender, RoutedEventArgs e)
+        {
+            Sports = _socketManager.ServerResponse;
+            foreach (Sport sport in Sports) Debug.WriteLine(sport.Name);
         }
     }
 }

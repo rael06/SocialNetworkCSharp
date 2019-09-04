@@ -67,14 +67,14 @@
     <Compile Include="Views\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Managers\Club.xaml.cs">
-      <DependentUpon>Club.xaml</DependentUpon>
+    <Compile Include="Views\Managers\ClubManager.xaml.cs">
+      <DependentUpon>ClubManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Managers\Member.xaml.cs">
-      <DependentUpon>Member.xaml</DependentUpon>
+    <Compile Include="Views\Managers\MemberManager.xaml.cs">
+      <DependentUpon>MemberManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Managers\Sport.xaml.cs">
-      <DependentUpon>Sport.xaml</DependentUpon>
+    <Compile Include="Views\Managers\SportManager.xaml.cs">
+      <DependentUpon>SportManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Routes\MainRoutes.cs" />
     <Page Include="MainWindow.xaml">
@@ -93,15 +93,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Managers\Club.xaml">
+    <Page Include="Views\Managers\ClubManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Managers\Member.xaml">
+    <Page Include="Views\Managers\MemberManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Managers\Sport.xaml">
+    <Page Include="Views\Managers\SportManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

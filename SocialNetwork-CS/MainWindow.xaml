@@ -13,17 +13,17 @@
             Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=0}" 
             PageChanged="MainMenu_PageChanged">
         </views:MainMenu>
-        <man:Club  
+        <man:ClubManager  
                   Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=1}" 
             PageChanged="MainMenu_PageChanged">
-        </man:Club>
-        <man:Member  
+        </man:ClubManager>
+        <man:MemberManager  
                   Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=2}" 
             PageChanged="MainMenu_PageChanged">
-        </man:Member>
-        <man:Sport  
+        </man:MemberManager>
+        <man:SportManager  
                   Visibility="{Binding PageType, Converter={StaticResource PageTypeConverter}, ConverterParameter=3}" 
             PageChanged="MainMenu_PageChanged">
-        </man:Sport>
+        </man:SportManager>
     </Grid>
 </Window>

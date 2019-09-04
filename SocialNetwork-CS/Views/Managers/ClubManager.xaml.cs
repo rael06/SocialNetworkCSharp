@@ -18,21 +18,30 @@ using static SocialNetwork_CS.Views.Routes.MainRoutes;
 namespace SocialNetwork_CS.Views.Managers
 {
     /// <summary>
-    /// Interaction logic for Member.xaml
+    /// Interaction logic for ClubManager.xaml
     /// </summary>
-    public partial class Member : UserControl
+    public partial class ClubManager : UserControl
     {
         private SocketManager _socketManager = SocketManager.Instance;
         public event EventHandler<PageType> PageChanged;
-       
-        public Member()
+        public ClubManager()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             PageChanged?.Invoke(this, PageType.Menu);
+        }
+
+        private void LoadData_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
