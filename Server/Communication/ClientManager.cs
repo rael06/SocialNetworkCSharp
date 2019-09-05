@@ -52,7 +52,7 @@ namespace Server.Communication
 			switch (request.RequestType)
 			{
 				case "read":
-					switch (request.RequestContent)
+					switch (request.RequestTarget)
 					{
 						case "members":
 							return null;

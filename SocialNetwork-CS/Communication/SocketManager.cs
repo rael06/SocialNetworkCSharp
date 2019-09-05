@@ -75,7 +75,7 @@ namespace SocialNetwork_CS.Communication
 			if (bytesReceived > 0)
 			{
 				var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-				ResponseTreatment(jsonReceived, request.RequestContent.ToString());
+				ResponseTreatment(jsonReceived, request.RequestTarget.ToString());
 			}
 		}
 
