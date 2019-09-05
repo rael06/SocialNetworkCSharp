@@ -47,6 +47,22 @@ namespace SocialNetwork_CS.Views.Managers
 		}
 		#endregion
 
+		#region AllSports
+		private ObservableCollection<Sport> _allSports = new ObservableCollection<Sport>();
+		public ObservableCollection<Sport> AllSports
+		{
+			get { return _allSports; }
+			set
+			{
+				if (_allSports != value)
+				{
+					_allSports = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AllSports)));
+				}
+			}
+		}
+		#endregion
+
 		#region Club
 		private Club _club = new Club();
 		public Club Club
@@ -70,10 +86,17 @@ namespace SocialNetwork_CS.Views.Managers
 			DataContext = this;
 			_mainWindow.Navigating += _mainWindow_Navigating;
 			_socketManager.RequestCompleted += SetData;
+			
 			_socketManager.RequestServer(new Request
 			{
 				RequestType = "read",
 				RequestTarget = "clubs"
+			});
+
+			_socketManager.RequestServer(new Request
+			{
+				RequestType = "read",
+				RequestTarget = "sports"
 			});
 		}
 
@@ -86,8 +109,16 @@ namespace SocialNetwork_CS.Views.Managers
 		{
 			if (_socketManager.ServerResponse.RequestTarget == "clubs")
 			{
-				Data = JsonConvert.DeserializeObject<ObservableCollection<Club>>(_socketManager.ServerResponse.RequestContent.ToString());
-				foreach (Club c in Data) Debug.WriteLine(c.Sport.Name);
+				Data = JsonConvert.DeserializeObject<ObservableCollection<Club>>(
+					_socketManager.ServerResponse.RequestContent.ToString());
+				foreach (Club c in Data) Debug.WriteLine(c.Name);
+			}
+
+			if (_socketManager.ServerResponse.RequestTarget == "sports")
+			{
+				AllSports = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(
+					_socketManager.ServerResponse.RequestContent.ToString());
+				foreach (Sport s in AllSports) Debug.WriteLine(s.Name);
 			}
 		}
 
@@ -98,7 +129,6 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
-
 		}
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)

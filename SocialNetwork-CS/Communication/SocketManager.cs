@@ -57,11 +57,12 @@ namespace SocialNetwork_CS.Communication
 
 		internal void RequestServer(Request request)
 		{
-			var thread = new Thread(() =>
-			{
-				Send(request);
-			});
-			thread.Start();
+			Send(request);
+			//var thread = new Thread(() =>
+			//{
+			//	Send(request);
+			//});
+			//thread.Start();
 		}
 
 

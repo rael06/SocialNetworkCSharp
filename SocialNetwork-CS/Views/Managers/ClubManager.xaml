@@ -55,7 +55,7 @@
 
 					<StackPanel Grid.Row="1" VerticalAlignment="Center" >
 						<TextBlock Text="Select a sport :" FontSize="20" Margin="30 0 0 10"></TextBlock>
-						<ComboBox Grid.Row="1" Width="200" ItemsSource="{Binding Club.Sport}">
+						<ComboBox Grid.Row="1" Width="200" Text="Select a sport" ItemsSource="{Binding AllSports}">
 							<ComboBox.ItemTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">

@@ -87,8 +87,7 @@ namespace SocialNetwork_CS.Views.Managers
 			if (_socketManager.ServerResponse.RequestTarget == "sports")
 			{
 				Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(
-					_socketManager.ServerResponse.RequestContent.ToString()
-					);
+					_socketManager.ServerResponse.RequestContent.ToString());
 			}
 		}
 
