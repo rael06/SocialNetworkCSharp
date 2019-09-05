@@ -25,9 +25,11 @@ namespace SocialNetwork_CS.Views.Managers
 	/// <summary>
 	/// Interaction logic for ClubManager.xaml
 	/// </summary>
-	public partial class ClubManager : Page
+	public partial class ClubManager : Page, INotifyPropertyChanged
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
+
+		private MainWindow _mainWindow = MainWindow._mainWindow;
 
 		#region Data
 		private ObservableCollection<Club> _data = new ObservableCollection<Club>();
@@ -66,13 +68,18 @@ namespace SocialNetwork_CS.Views.Managers
 		{
 			InitializeComponent();
 			DataContext = this;
-
+			_mainWindow.Navigating += _mainWindow_Navigating;
 			_socketManager.RequestCompleted += SetData;
 			_socketManager.RequestServer(new Request
 			{
 				RequestType = "read",
 				RequestTarget = "clubs"
 			});
+		}
+
+		private void _mainWindow_Navigating(object sender, NavigatingCancelEventArgs e)
+		{
+			if (e.NavigationMode == NavigationMode.Back) _socketManager.RequestCompleted -= SetData;
 		}
 
 		private void SetData(object sender, PropertyChangedEventArgs e)

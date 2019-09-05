@@ -29,6 +29,8 @@ namespace SocialNetwork_CS.Views.Managers
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
 
+		private MainWindow _mainWindow = MainWindow._mainWindow;
+
 		#region Data
 		private ObservableCollection<Sport> _data = new ObservableCollection<Sport>();
 		public ObservableCollection<Sport> Data
@@ -67,6 +69,7 @@ namespace SocialNetwork_CS.Views.Managers
 			InitializeComponent();
 			DataContext = this;
 
+			_mainWindow.Navigating += _mainWindow_Navigating;
 			_socketManager.RequestCompleted += SetData;
 			_socketManager.RequestServer(new Request
 			{
@@ -74,13 +77,18 @@ namespace SocialNetwork_CS.Views.Managers
 				RequestTarget = "sports"
 			});
 		}
+		private void _mainWindow_Navigating(object sender, NavigatingCancelEventArgs e)
+		{
+			if (e.NavigationMode == NavigationMode.Back) _socketManager.RequestCompleted -= SetData;
+		}
 
 		private void SetData(object sender, PropertyChangedEventArgs e)
 		{
-			if(_socketManager.ServerResponse.RequestTarget == "sports")
+			if (_socketManager.ServerResponse.RequestTarget == "sports")
 			{
-				Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(_socketManager.ServerResponse.RequestContent.ToString());
-				foreach (Sport s in Data) Debug.WriteLine(s.Name);
+				Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(
+					_socketManager.ServerResponse.RequestContent.ToString()
+					);
 			}
 		}
 

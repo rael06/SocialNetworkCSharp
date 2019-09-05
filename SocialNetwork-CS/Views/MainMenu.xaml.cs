@@ -28,7 +28,6 @@ namespace SocialNetwork_CS.Views
 	/// </summary>
 	public partial class MainMenu : Page
 	{
-		private SocketManager _socketManager = SocketManager.Instance;
 		public MainMenu() => InitializeComponent();
 
 		private void Club_Manager_Click(object sender, RoutedEventArgs e) =>
@@ -39,5 +38,6 @@ namespace SocialNetwork_CS.Views
 
 		private void Member_Manager_Click(object sender, RoutedEventArgs e) =>
 			NavigationService.Navigate(new MemberManager());
+
 	}
 }

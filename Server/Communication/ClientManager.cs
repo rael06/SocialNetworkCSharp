@@ -85,9 +85,9 @@ namespace Server.Communication
 					switch (request.RequestTarget)
 					{
 						case "sport":
-							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							var sportToUpdate = Context.Sports.Find(sport.Id);
-							sportToUpdate.Name = sport.Name;
+							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							var sportToUpdate = Context.Sports.Find(sportFromClient.Id);
+							sportToUpdate.Name = sportFromClient.Name;
 							Context.SaveChanges();
 							return new Request
 							{
@@ -104,8 +104,8 @@ namespace Server.Communication
 					switch (request.RequestTarget)
 					{
 						case "sport":
-							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							var sportToDelete = Context.Sports.Find(sport.Id);
+							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							var sportToDelete = Context.Sports.Find(sportFromClient.Id);
 							Context.Sports.Remove(sportToDelete);
 							Context.SaveChanges();
 							return new Request
@@ -123,8 +123,8 @@ namespace Server.Communication
 					switch (request.RequestTarget)
 					{
 						case "sport":
-							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							Context.Sports.Add(sport);
+							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							Context.Sports.Add(sportFromClient);
 							Context.SaveChanges();
 							return new Request
 							{
