@@ -48,9 +48,7 @@ namespace SocialNetwork_CS.Views
 			_socketManager.RequestServer(request);
 		}
 
-		private void Sport_Manager_Click(object sender, RoutedEventArgs e)
-		{
+		private void Sport_Manager_Click(object sender, RoutedEventArgs e) =>
 			NavigationService.Navigate(new SportManager());
-		}
 	}
 }

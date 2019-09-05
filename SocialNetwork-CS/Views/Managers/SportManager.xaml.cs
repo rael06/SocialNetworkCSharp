@@ -67,7 +67,8 @@ namespace SocialNetwork_CS.Views.Managers
 			InitializeComponent();
 			DataContext = this;
 
-			_socketManager.RequestServer(new Request {
+			_socketManager.RequestServer(new Request
+			{
 				RequestType = "read",
 				RequestTarget = "sports"
 			});
@@ -83,25 +84,19 @@ namespace SocialNetwork_CS.Views.Managers
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
 		{
 			var item = (sender as ListView).SelectedItem as Sport;
-			if (item != null)
-			{
-				Sport = item;
-				Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
-			}
+			if (item != null) Sport = item;
 		}
 
 		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Sport.Name != null)
+			Debug.WriteLine((Sport.Name == "").ToString());
+			if (Sport.Name != null && Sport.Name != "")
 			{
 				_socketManager.RequestServer(new Request
 				{
 					RequestType = "create",
 					RequestTarget = "sport",
-					RequestContent = new Sport
-					{
-						Name = Sport.Name
-					}
+					RequestContent = new Sport { Name = Sport.Name }
 				});
 				ClearTextBox();
 			}
@@ -109,7 +104,7 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Sport.Name != null)
+			if (Sport.Name != null && Sport.Name != "")
 			{
 				_socketManager.RequestServer(new Request
 				{
@@ -123,7 +118,7 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void DeleteItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Sport != null)
+			if (Sport.Name != null && Sport.Name != "")
 			{
 				_socketManager.RequestServer(new Request
 				{
