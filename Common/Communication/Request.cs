@@ -7,5 +7,15 @@ namespace Common.Communication
 		public string RequestType { get; set; }
 		public string RequestTarget { get; set; }
 		public object RequestContent { get; set; }
+		public bool RequestSuccess { get; set; }
+
+		public string ToString()
+		{
+			return $"Request = \n" +
+				$"RequestType : {RequestType},\n" +
+				$"RequestTarget : {RequestTarget}, \n" +
+				$"RequestContent : {RequestContent}, \n" +
+				$"RequestSuccess : {RequestSuccess.ToString()}";
+		}
 	}
 }

@@ -47,7 +47,7 @@ namespace Server.Communication
 			}
 		}
 
-		private object RequestTreatment(Request request)
+		private Request RequestTreatment(Request request)
 		{
 			switch (request.RequestType)
 			{
@@ -61,7 +61,12 @@ namespace Server.Communication
 							return null;
 
 						case "sports":
-							return Context.Sports.ToList();
+							return new Request
+							{
+								RequestTarget = "sports",
+								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
 
 						default:
 							return null;
@@ -72,15 +77,57 @@ namespace Server.Communication
 					{
 						case "sport":
 							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							var originSport = Context.Sports.Find(sport.Id);
-							originSport.Name = sport.Name;
+							var sportToUpdate = Context.Sports.Find(sport.Id);
+							sportToUpdate.Name = sport.Name;
 							Context.SaveChanges();
-							return true;
+							return new Request
+							{
+								RequestTarget = "sports",
+								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
 
 						default:
 							return null;
 					}
-					
+
+				case "delete":
+					switch (request.RequestTarget)
+					{
+						case "sport":
+							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							var sportToDelete = Context.Sports.Find(sport.Id);
+							Context.Sports.Remove(sportToDelete);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "sports",
+								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
+
+						default:
+							return null;
+					}
+
+				case "create":
+					switch (request.RequestTarget)
+					{
+						case "sport":
+							var sport = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							Context.Sports.Add(sport);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "sports",
+								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
+
+						default:
+							return null;
+					}
+
 
 				default:
 					return null;

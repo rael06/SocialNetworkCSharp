@@ -21,8 +21,8 @@ namespace SocialNetwork_CS.Communication
 		private Socket _socket;
 
 		#region ServerResponse
-		private dynamic _serverResponse = new object();
-		public dynamic ServerResponse
+		private Request _serverResponse = new Request();
+		public Request ServerResponse
 		{
 			get { return _serverResponse; }
 			set
@@ -75,27 +75,9 @@ namespace SocialNetwork_CS.Communication
 			if (bytesReceived > 0)
 			{
 				var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-				ResponseTreatment(jsonReceived, request.RequestTarget.ToString());
+				ServerResponse = JsonConvert.DeserializeObject<Request>(jsonReceived);
+				Debug.WriteLine(ServerResponse.ToString());
 			}
-		}
-
-		private void ResponseTreatment(string jsonReceived, string requestContent)
-		{
-			switch (requestContent)
-			{
-				case "sports":
-					ServerResponse = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(jsonReceived);
-					break;
-
-				case "members":
-					ServerResponse = JsonConvert.DeserializeObject<ObservableCollection<Member>>(jsonReceived);
-					break;
-
-				case "clubs":
-					ServerResponse = JsonConvert.DeserializeObject<ObservableCollection<Club>>(jsonReceived);
-					break;
-			}
-
 		}
 
 		private IPAddress GetHostIPAddress()

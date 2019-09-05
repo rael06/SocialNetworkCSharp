@@ -1,4 +1,5 @@
 ﻿using Common.Communication;
+using Newtonsoft.Json;
 using SocialNetwork_CS.Communication;
 using SocialNetwork_CS.Models;
 using System;
@@ -70,29 +71,67 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void SetData(object sender, PropertyChangedEventArgs e)
 		{
-			Data = _socketManager.ServerResponse as ObservableCollection<Sport>;
+			Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(_socketManager.ServerResponse.RequestContent.ToString());
 		}
 
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
 		{
 			var item = (sender as ListView).SelectedItem as Sport;
-			Sport = item;
-			Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
+			if (item != null)
+			{
+				Sport = item;
+				Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
+			}
 		}
 
-		private void CreateItem(object sender, RoutedEventArgs e)
+		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
-
+			if (Sport.Name != null)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "create",
+					RequestTarget = "sport",
+					RequestContent = new Sport
+					{
+						Name = Sport.Name
+					}
+				});
+				ClearTextBox();
+			}
 		}
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
 		{
-			Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
-			_socketManager.RequestServer(new Request {
-				RequestType = "update",
-				RequestTarget = "sport",
-				RequestContent = Sport
-			});
+			if (Sport.Name != null)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "update",
+					RequestTarget = "sport",
+					RequestContent = Sport
+				});
+				ClearTextBox();
+			}
+		}
+
+		private void DeleteItem_Click(object sender, RoutedEventArgs e)
+		{
+			if (Sport != null)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "delete",
+					RequestTarget = "sport",
+					RequestContent = Sport
+				});
+				ClearTextBox();
+			}
+		}
+
+		private void ClearTextBox()
+		{
+			Sport = new Sport { Name = "" };
 		}
 	}
 }
