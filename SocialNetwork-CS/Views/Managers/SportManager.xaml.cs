@@ -77,12 +77,22 @@ namespace SocialNetwork_CS.Views.Managers
 		{
 			var item = (sender as ListView).SelectedItem as Sport;
 			Sport = item;
-			Debug.WriteLine(Sport.Name);
+			Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
 		}
 
 		private void CreateItem(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void UpdateItem_Click(object sender, RoutedEventArgs e)
+		{
+			Debug.WriteLine(Sport.Name + ", Id : " + Sport.Id);
+			_socketManager.RequestServer(new Request {
+				RequestType = "update",
+				RequestTarget = "sport",
+				RequestContent = Sport
+			});
 		}
 	}
 }

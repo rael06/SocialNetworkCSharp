@@ -49,7 +49,7 @@
 
 				<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
 					<Button Style="{StaticResource StdButtonStyle}" Content="Delete" Margin="0 0 50 0"></Button>
-					<Button Style="{StaticResource StdButtonStyle}" Content="Update"></Button>
+					<Button Style="{StaticResource StdButtonStyle}" Content="Update" Click="UpdateItem_Click"></Button>
 				</StackPanel>
 			</Grid>
 		</Grid>
