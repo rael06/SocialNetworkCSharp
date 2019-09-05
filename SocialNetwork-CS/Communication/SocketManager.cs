@@ -67,15 +67,15 @@ namespace SocialNetwork_CS.Communication
 
 		private void Send(Request request)
 		{
-			var jsonToSend = JsonConvert.SerializeObject(request);
-			_socket.Send(Encoding.UTF8.GetBytes(jsonToSend));
+			var jsonRequest = JsonConvert.SerializeObject(request);
+			_socket.Send(Encoding.UTF8.GetBytes(jsonRequest));
 
 			var buffer = new byte[_socket.ReceiveBufferSize];
 			int bytesReceived = _socket.Receive(buffer);
 			if (bytesReceived > 0)
 			{
-				var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-				ServerResponse = JsonConvert.DeserializeObject<Request>(jsonReceived);
+				var jsonResponse = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+				ServerResponse = JsonConvert.DeserializeObject<Request>(jsonResponse);
 				//Debug.WriteLine(ServerResponse.ToString());
 			}
 		}

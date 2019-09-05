@@ -62,19 +62,10 @@ namespace Server.Communication
 							return null;
 
 						case "clubs":
-							var clubs = new List<Club>();
-							var contextClubs = Context.Clubs.ToList();
-							foreach (Club c in contextClubs) clubs.Add(new Club
-							{
-								Name = c.Name,
-								SportId = c.SportId,
-								Sport = c.Sport
-							});
-
 							return new Request
 							{
 								RequestTarget = "clubs",
-								RequestContent = clubs,
+								RequestContent = Context.Clubs.ToList(),
 								RequestSuccess = true
 							};
 

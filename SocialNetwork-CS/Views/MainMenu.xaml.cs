@@ -29,24 +29,15 @@ namespace SocialNetwork_CS.Views
 	public partial class MainMenu : Page
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
-		public MainMenu()
-		{
-			InitializeComponent();
-		}
+		public MainMenu() => InitializeComponent();
 
-		private void Club_Manager_Click(object sender, RoutedEventArgs e)
-		{
+		private void Club_Manager_Click(object sender, RoutedEventArgs e) =>
 			NavigationService.Navigate(new ClubManager());
-		}
-
-		private void Member_Manager_Click(object sender, RoutedEventArgs e)
-		{
-			NavigationService.Navigate(new MemberManager());
-			var request = new Request { RequestType = "read", RequestTarget = "members" };
-			_socketManager.RequestServer(request);
-		}
 
 		private void Sport_Manager_Click(object sender, RoutedEventArgs e) =>
 			NavigationService.Navigate(new SportManager());
+
+		private void Member_Manager_Click(object sender, RoutedEventArgs e) =>
+			NavigationService.Navigate(new MemberManager());
 	}
 }

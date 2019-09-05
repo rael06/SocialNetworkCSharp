@@ -67,18 +67,21 @@ namespace SocialNetwork_CS.Views.Managers
 			InitializeComponent();
 			DataContext = this;
 
+			_socketManager.RequestCompleted += SetData;
 			_socketManager.RequestServer(new Request
 			{
 				RequestType = "read",
 				RequestTarget = "sports"
 			});
-
-			_socketManager.RequestCompleted += SetData;
 		}
 
 		private void SetData(object sender, PropertyChangedEventArgs e)
 		{
-			Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(_socketManager.ServerResponse.RequestContent.ToString());
+			if(_socketManager.ServerResponse.RequestTarget == "sports")
+			{
+				Data = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(_socketManager.ServerResponse.RequestContent.ToString());
+				foreach (Sport s in Data) Debug.WriteLine(s.Name);
+			}
 		}
 
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
