@@ -66,6 +66,12 @@ namespace SocialNetwork_CS.Views.Managers
 		{
 			InitializeComponent();
 			DataContext = this;
+
+			_socketManager.RequestServer(new Request {
+				RequestType = "read",
+				RequestTarget = "sports"
+			});
+
 			_socketManager.RequestCompleted += SetData;
 		}
 

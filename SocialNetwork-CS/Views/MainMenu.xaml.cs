@@ -29,7 +29,6 @@ namespace SocialNetwork_CS.Views
 	public partial class MainMenu : Page
 	{
 		private SocketManager _socketManager = SocketManager.Instance;
-		private SportManager _sportManager;
 		public MainMenu()
 		{
 			InitializeComponent();
@@ -51,10 +50,7 @@ namespace SocialNetwork_CS.Views
 
 		private void Sport_Manager_Click(object sender, RoutedEventArgs e)
 		{
-			var request = new Request { RequestType = "read", RequestTarget = "sports" };
-			_socketManager.RequestServer(request);
-			_sportManager = new SportManager();
-			NavigationService.Navigate(_sportManager);
+			NavigationService.Navigate(new SportManager());
 		}
 	}
 }
