@@ -64,7 +64,6 @@
     <Compile Include="Models\Entities\Member.cs" />
     <Compile Include="Models\SocialNetworkCSContext.cs" />
     <Compile Include="Models\Entities\Sport.cs" />
-    <Compile Include="Models\TestObj.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

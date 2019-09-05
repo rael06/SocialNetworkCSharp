@@ -76,7 +76,7 @@ namespace SocialNetwork_CS.Communication
 			{
 				var jsonReceived = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
 				ServerResponse = JsonConvert.DeserializeObject<Request>(jsonReceived);
-				Debug.WriteLine(ServerResponse.ToString());
+				//Debug.WriteLine(ServerResponse.ToString());
 			}
 		}
 

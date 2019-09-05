@@ -6,7 +6,7 @@ namespace Common.Communication
 	{
 		public string RequestType { get; set; }
 		public string RequestTarget { get; set; }
-		public object RequestContent { get; set; }
+		public dynamic RequestContent { get; set; }
 		public bool RequestSuccess { get; set; }
 
 		public string ToString()

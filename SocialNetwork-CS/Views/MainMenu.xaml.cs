@@ -37,8 +37,6 @@ namespace SocialNetwork_CS.Views
 		private void Club_Manager_Click(object sender, RoutedEventArgs e)
 		{
 			NavigationService.Navigate(new ClubManager());
-			var request = new Request { RequestType = "read", RequestTarget = "clubs" };
-			_socketManager.RequestServer(request);
 		}
 
 		private void Member_Manager_Click(object sender, RoutedEventArgs e)

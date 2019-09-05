@@ -36,13 +36,17 @@ namespace Server.Communication
 				int bytesReceived = _clientSocket.Receive(buffer);
 				if (bytesReceived > 0)
 				{
-					var jsonStr = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
-					var request = JsonConvert.DeserializeObject<Request>(jsonStr);
-					Console.WriteLine($"La requête du client est de type : {request.RequestType} " +
-					    $"et contient {request.RequestContent}");
+					var jsonRequest = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+					var request = JsonConvert.DeserializeObject<Request>(jsonRequest);
 
 					var response = RequestTreatment(request);
-					Send(_clientSocket, JsonConvert.SerializeObject(response));
+					var jsonResponse = JsonConvert.SerializeObject(response, Formatting.Indented,
+						new JsonSerializerSettings()
+						{
+							ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+						}
+					);
+					Send(_clientSocket, jsonResponse);
 				}
 			}
 		}
@@ -58,7 +62,21 @@ namespace Server.Communication
 							return null;
 
 						case "clubs":
-							return null;
+							var clubs = new List<Club>();
+							var contextClubs = Context.Clubs.ToList();
+							foreach (Club c in contextClubs) clubs.Add(new Club
+							{
+								Name = c.Name,
+								SportId = c.SportId,
+								Sport = c.Sport
+							});
+
+							return new Request
+							{
+								RequestTarget = "clubs",
+								RequestContent = clubs,
+								RequestSuccess = true
+							};
 
 						case "sports":
 							return new Request
