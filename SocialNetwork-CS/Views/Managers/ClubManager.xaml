@@ -74,7 +74,7 @@
 							<RowDefinition Height="*"></RowDefinition>
 						</Grid.RowDefinitions>
 						<TextBlock Text="Club's members" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding Sport.Clubs}">
+						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding Club.Members}">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
