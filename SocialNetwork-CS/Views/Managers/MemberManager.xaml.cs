@@ -206,7 +206,6 @@ namespace SocialNetwork_CS.Views.Managers
 					_socketManager.ServerResponse.RequestContent.ToString());
 
 				Clubs.Clear();
-				foreach (Club c in AllClubs) Clubs.Add(c);
 			}
 
 			if (_socketManager.ServerResponse.RequestTarget == "sports")
@@ -229,16 +228,19 @@ namespace SocialNetwork_CS.Views.Managers
 				MemberSports = new ObservableCollection<Sport>();
 				Clubs.Clear();
 				Sports.Clear();
-				foreach (Club c in AllClubs) Clubs.Add(c);
 				foreach (Sport s in AllSports) Sports.Add(s);
 
-
 				foreach (Club club in Member.Clubs) MemberClubs.Add(club);
-				foreach (Sport sport in Member.Sports) MemberSports.Add(sport);
+
+				foreach (Sport sport in Member.Sports)
+				{
+					MemberSports.Add(sport);
+					foreach (Club c in sport.Clubs) Clubs.Add(c);
+				}
 
 				foreach (Club club in MemberClubs)
 				{
-					var filteredClub = AllClubs.FirstOrDefault(c => c.Id == club.Id);
+					var filteredClub = Clubs.FirstOrDefault(c => c.Id == club.Id);
 					Clubs.Remove(filteredClub);
 				}
 
@@ -270,10 +272,16 @@ namespace SocialNetwork_CS.Views.Managers
 				Clubs.Clear();
 				foreach (Sport s in MemberSports)
 				{
-					foreach(Club c in s.Clubs)
+					foreach (Club c in s.Clubs)
 					{
 						Clubs.Add(c);
 					}
+				}
+
+				foreach (Club club in MemberClubs)
+				{
+					var filteredClub = Clubs.FirstOrDefault(c => c.Id == club.Id);
+					Clubs.Remove(filteredClub);
 				}
 			}
 		}
@@ -308,6 +316,7 @@ namespace SocialNetwork_CS.Views.Managers
 					//	if (!memberSport.Clubs.Contains(memberClub)) MemberClubs.Remove(memberClub);
 					//}
 				}
+				MemberClubs.Clear();
 			}
 		}
 
@@ -335,8 +344,8 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (MemberClubs.Count != 0 && 
-				MemberSports.Count != 0 && 
+			if (MemberClubs.Count != 0 &&
+				MemberSports.Count != 0 &&
 				Member.Id != 0 &&
 				Member.LastName != null &&
 				Member.FirstName != null &&
@@ -381,7 +390,6 @@ namespace SocialNetwork_CS.Views.Managers
 			ClearFields();
 			Clubs.Clear();
 			Sports.Clear();
-			foreach (Club c in AllClubs) Clubs.Add(c);
 			foreach (Sport s in AllSports) Sports.Add(s);
 		}
 	}

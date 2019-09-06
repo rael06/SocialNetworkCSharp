@@ -79,7 +79,7 @@
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
-										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="20"/>
+										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LastName}" FontSize="20"/>
 									</WrapPanel>
 								</DataTemplate>
 							</ListView.ItemTemplate>
