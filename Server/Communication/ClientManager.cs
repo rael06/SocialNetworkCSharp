@@ -81,18 +81,65 @@ namespace Server.Communication
 							return null;
 					}
 
+				case "create":
+					switch (request.RequestTarget)
+					{
+						case "sport":
+							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
+							Context.Sports.Add(sportFromClient);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "sports",
+								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
+
+						case "club":
+							var clubFromClient = JsonConvert.DeserializeObject<Club>(request.RequestContent.ToString()) as Club;
+							var clubSportToCreate = Context.Sports.Find(clubFromClient.Sport.Id);
+							clubFromClient.Sport = clubSportToCreate;
+							Console.WriteLine(clubFromClient.Sport.Id);
+							Context.Clubs.Add(clubFromClient);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "clubs",
+								RequestContent = Context.Clubs.ToList(),
+								RequestSuccess = true
+							};
+
+						default:
+							return null;
+					}
+
 				case "update":
 					switch (request.RequestTarget)
 					{
 						case "sport":
 							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							var sportToUpdate = Context.Sports.Find(sportFromClient.Id);
+							var sportToUpdate = Context.Sports.Find(sportFromClient.Id) as Sport;
 							sportToUpdate.Name = sportFromClient.Name;
 							Context.SaveChanges();
 							return new Request
 							{
 								RequestTarget = "sports",
 								RequestContent = Context.Sports.ToList(),
+								RequestSuccess = true
+							};
+
+						case "club":
+							var clubFromClient = JsonConvert.DeserializeObject<Club>(request.RequestContent.ToString()) as Club;
+							var clubToUpdate = Context.Clubs.Find(clubFromClient.Id) as Club;
+							var clubSportToUpdate = Context.Sports.Find(clubFromClient.Sport.Id) as Sport;
+							Console.WriteLine(clubSportToUpdate.Id + " " + clubFromClient.Sport.Id);
+							clubToUpdate.Name = clubFromClient.Name;
+							clubToUpdate.Sport = clubSportToUpdate;
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "clubs",
+								RequestContent = Context.Clubs.ToList(),
 								RequestSuccess = true
 							};
 
@@ -115,21 +162,15 @@ namespace Server.Communication
 								RequestSuccess = true
 							};
 
-						default:
-							return null;
-					}
-
-				case "create":
-					switch (request.RequestTarget)
-					{
-						case "sport":
-							var sportFromClient = JsonConvert.DeserializeObject<Sport>(request.RequestContent.ToString());
-							Context.Sports.Add(sportFromClient);
+						case "club":
+							var clubFromClient = JsonConvert.DeserializeObject<Club>(request.RequestContent.ToString());
+							var clubToDelete = Context.Clubs.Find(clubFromClient.Id);
+							Context.Clubs.Remove(clubToDelete);
 							Context.SaveChanges();
 							return new Request
 							{
-								RequestTarget = "sports",
-								RequestContent = Context.Sports.ToList(),
+								RequestTarget = "clubs",
+								RequestContent = Context.Clubs.ToList(),
 								RequestSuccess = true
 							};
 

@@ -79,6 +79,22 @@ namespace SocialNetwork_CS.Views.Managers
 		}
 		#endregion
 
+		#region Sport
+		private Sport _sport = new Sport();
+		public Sport Sport
+		{
+			get { return _sport; }
+			set
+			{
+				if (_sport != value)
+				{
+					_sport = value;
+					PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sport)));
+				}
+			}
+		}
+		#endregion
+
 		public event PropertyChangedEventHandler PropertyChanged;
 		public ClubManager()
 		{
@@ -86,7 +102,7 @@ namespace SocialNetwork_CS.Views.Managers
 			DataContext = this;
 			_mainWindow.Navigating += _mainWindow_Navigating;
 			_socketManager.RequestCompleted += SetData;
-			
+
 			_socketManager.RequestServer(new Request
 			{
 				RequestType = "read",
@@ -111,35 +127,76 @@ namespace SocialNetwork_CS.Views.Managers
 			{
 				Data = JsonConvert.DeserializeObject<ObservableCollection<Club>>(
 					_socketManager.ServerResponse.RequestContent.ToString());
-				foreach (Club c in Data) Debug.WriteLine(c.Name);
 			}
 
 			if (_socketManager.ServerResponse.RequestTarget == "sports")
 			{
 				AllSports = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(
 					_socketManager.ServerResponse.RequestContent.ToString());
-				foreach (Sport s in AllSports) Debug.WriteLine(s.Name);
 			}
 		}
 
 		private void ListView_ItemSelection(object sender, SelectionChangedEventArgs e)
 		{
+			var item = (sender as ListView).SelectedItem as Club;
+			if (item != null) Club = item;
+		}
 
+		private void ComboBox_ItemSelection(object sender, SelectionChangedEventArgs e)
+		{
+			var item = (sender as ComboBox).SelectedItem as Sport;
+			if (item != null) Sport = item;
 		}
 
 		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
+			if (Club.Id == 0 && Club.Name != null && Sport.Id != 0)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "create",
+					RequestTarget = "club",
+					RequestContent = new Club {
+						Name = Club.Name,
+						Sport = Sport
+					}
+				});
+				ClearFields();
+			}
 		}
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
 		{
-
+			if (Club.Id != 0 && Sport.Id != 0)
+			{
+				Club.Sport = Sport;
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "update",
+					RequestTarget = "club",
+					RequestContent = Club
+				});
+				ClearFields();
+			}
 		}
 
 		private void DeleteItem_Click(object sender, RoutedEventArgs e)
 		{
-
+			if (Club.Id != 0)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "delete",
+					RequestTarget = "club",
+					RequestContent = Club
+				});
+				ClearFields();
+			}
 		}
 
+		private void ClearFields()
+		{
+			Club = new Club();
+		}
 	}
 }

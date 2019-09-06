@@ -99,8 +99,7 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
-			Debug.WriteLine((Sport.Name == "").ToString());
-			if (Sport.Name != null && Sport.Name != "")
+			if (Sport.Name != null)
 			{
 				_socketManager.RequestServer(new Request
 				{
@@ -108,13 +107,13 @@ namespace SocialNetwork_CS.Views.Managers
 					RequestTarget = "sport",
 					RequestContent = new Sport { Name = Sport.Name }
 				});
-				ClearTextBox();
+				ClearFields();
 			}
 		}
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Sport.Name != null && Sport.Name != "")
+			if (Sport.Id != 0)
 			{
 				_socketManager.RequestServer(new Request
 				{
@@ -122,13 +121,13 @@ namespace SocialNetwork_CS.Views.Managers
 					RequestTarget = "sport",
 					RequestContent = Sport
 				});
-				ClearTextBox();
+				ClearFields();
 			}
 		}
 
 		private void DeleteItem_Click(object sender, RoutedEventArgs e)
 		{
-			if (Sport.Name != null && Sport.Name != "")
+			if (Sport.Name != null)
 			{
 				_socketManager.RequestServer(new Request
 				{
@@ -136,13 +135,13 @@ namespace SocialNetwork_CS.Views.Managers
 					RequestTarget = "sport",
 					RequestContent = Sport
 				});
-				ClearTextBox();
+				ClearFields();
 			}
 		}
 
-		private void ClearTextBox()
+		private void ClearFields()
 		{
-			Sport = new Sport { Name = "" };
+			Sport = new Sport();
 		}
 	}
 }
