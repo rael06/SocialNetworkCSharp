@@ -148,6 +148,34 @@ namespace Server.Communication
 								RequestSuccess = true
 							};
 
+						case "member":
+							var memberFromClient = JsonConvert.DeserializeObject<Member>(request.RequestContent.ToString()) as Member;
+							var memberToUpdate = Context.Members.Find(memberFromClient.Id) as Member;
+							var memberSportsToUpdate = new List<Sport>();
+							var memberClubsToUpdate = new List<Club>();
+							foreach(Sport sport in memberFromClient.Sports)
+							{
+								memberSportsToUpdate.Add(Context.Sports.Find(sport.Id) as Sport);
+							}
+							memberToUpdate.Sports = memberSportsToUpdate;
+
+							foreach (Club club in memberFromClient.Clubs)
+							{
+								memberClubsToUpdate.Add(Context.Clubs.Find(club.Id) as Club);
+							}
+							memberToUpdate.Clubs = memberClubsToUpdate;
+
+							memberToUpdate.LastName = memberFromClient.LastName;
+							memberToUpdate.FirstName = memberFromClient.FirstName;
+							memberToUpdate.Age = memberFromClient.Age;
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "members",
+								RequestContent = Context.Members.OrderBy(x => x.LastName).ToList(),
+								RequestSuccess = true
+							};
+
 						default:
 							return null;
 					}

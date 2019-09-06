@@ -108,10 +108,10 @@
 							<RowDefinition Height="*"></RowDefinition>
 							<RowDefinition Height="30"></RowDefinition>
 							<RowDefinition Height="*"></RowDefinition>
-							
+
 						</Grid.RowDefinitions>
 						<TextBlock Text="Member's clubs" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding Members.Clubs}">
+						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding MemberClubs}" SelectionChanged="ListView_MemberClubsSelection">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
@@ -120,9 +120,9 @@
 								</DataTemplate>
 							</ListView.ItemTemplate>
 						</ListView>
-						
+
 						<TextBlock Grid.Row="2" Text="Member's sports" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-						<ListView Grid.Row="3" Margin="10 0 10 15" ItemsSource="{Binding Members.Sports}">
+						<ListView Grid.Row="3" Margin="10 0 10 15" ItemsSource="{Binding MemberSports}" SelectionChanged="ListView_MemberSportsSelection">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
@@ -142,7 +142,7 @@
 
 						</Grid.RowDefinitions>
 						<TextBlock Text="Available clubs" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding Members.Clubs}">
+						<ListView Grid.Row="1" Margin="10 0 10 15" ItemsSource="{Binding Clubs}" SelectionChanged="ListView_ClubInClubsSelection">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
@@ -153,7 +153,7 @@
 						</ListView>
 
 						<TextBlock Grid.Row="2" Text="Available sports" HorizontalAlignment="Center" FontSize="20"></TextBlock>
-						<ListView Grid.Row="3" Margin="10 0 10 15" ItemsSource="{Binding Members.Sports}">
+						<ListView Grid.Row="3" Margin="10 0 10 15" ItemsSource="{Binding Sports}" SelectionChanged="ListView_SportInSportsSelection">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<WrapPanel>
@@ -164,9 +164,6 @@
 						</ListView>
 					</Grid>
 				</Grid>
-
-
-
 				<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
 					<Button Style="{StaticResource StdButtonStyle}" Content="Delete" Margin="0 0 50 0" Click="DeleteItem_Click"></Button>
 					<Button Style="{StaticResource StdButtonStyle}" Content="Update" Click="UpdateItem_Click"></Button>
