@@ -59,7 +59,12 @@ namespace Server.Communication
 					switch (request.RequestTarget)
 					{
 						case "members":
-							return null;
+							return new Request
+							{
+								RequestTarget = "members",
+								RequestContent = Context.Members.OrderBy(x => x.LastName).ToList(),
+								RequestSuccess = true
+							};
 
 						case "clubs":
 							return new Request

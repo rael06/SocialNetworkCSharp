@@ -121,7 +121,6 @@
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
-
 						</StackPanel>
 					</Grid>
 				</Grid>
