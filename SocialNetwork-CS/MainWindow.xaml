@@ -1,11 +1,12 @@
 ﻿<NavigationWindow x:Class="SocialNetwork_CS.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views ="clr-namespace:SocialNetwork_CS.Views"
-        xmlns:man="clr-namespace:SocialNetwork_CS.Views.Managers"
-        xmlns:local="clr-namespace:SocialNetwork_CS"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Source="Views/MainMenu.xaml">
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views ="clr-namespace:SocialNetwork_CS.Views"
+	xmlns:man="clr-namespace:SocialNetwork_CS.Views.Managers"
+	xmlns:local="clr-namespace:SocialNetwork_CS"
+	mc:Ignorable="d"
+	ResizeMode="NoResize"
+	Title="MainWindow" Height="450" Width="800" Source="Views/MainMenu.xaml">
 </NavigationWindow>

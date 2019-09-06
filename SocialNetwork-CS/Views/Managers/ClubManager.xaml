@@ -18,59 +18,43 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
-
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="50"></RowDefinition>
+					<RowDefinition Height="50"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 				</Grid.RowDefinitions>
-
 				<Button Style="{StaticResource StdButtonStyle}" Content="Créer" HorizontalAlignment="Left" 
 			  Margin="10 0" Click="CreateItem_Click"></Button>
+				<Border Width="370" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="White">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+							<ColumnDefinition Width="*"></ColumnDefinition>
+						</Grid.ColumnDefinitions>
 
-				<Grid Grid.Row="1">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*"></ColumnDefinition>
-						<ColumnDefinition Width="*"></ColumnDefinition>
-					</Grid.ColumnDefinitions>
+						<TextBlock Text="Clubs" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+						<TextBlock Grid.Column="1"  Text="Sports" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-					<Grid Margin="10">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="50"></RowDefinition>
-							<RowDefinition Height="*"></RowDefinition>
-						</Grid.RowDefinitions>
-						<Border BorderThickness="1" BorderBrush="Gray" Background="White">
-							<TextBlock Text="Clubs" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-						</Border>
-						<ListView Grid.Row="1" ItemsSource="{Binding Data}" HorizontalContentAlignment="Center" SelectionChanged="ListView_ItemSelection">
-							<ListView.ItemTemplate>
-								<DataTemplate>
-									<WrapPanel>
-										<TextBlock Text="{Binding Name}" FontSize="20"/>
-									</WrapPanel>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
 					</Grid>
-					<Grid  Grid.Column="1" Margin="10">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="50"></RowDefinition>
-							<RowDefinition Height="*"></RowDefinition>
-						</Grid.RowDefinitions>
-						<Border BorderThickness="1" BorderBrush="Gray" Background="White">
-							<TextBlock  Text="Sports" FontSize="20" Background="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-						</Border>
-						<ListView Grid.Row="1" ItemsSource="{Binding Data}" HorizontalContentAlignment="Center" SelectionChanged="ListView_ItemSelection">
-							<ListView.ItemTemplate>
-								<DataTemplate>
-									<WrapPanel>
-										<TextBlock Text="{Binding Sport.Name}" FontSize="20"/>
-									</WrapPanel>
-								</DataTemplate>
-							</ListView.ItemTemplate>
-						</ListView>
-					</Grid>
-				</Grid>
+				</Border>
+
+
+				<ListView Width="370" Grid.Row="2" ItemsSource="{Binding Data}" SelectionChanged="ListView_ItemSelection">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="185"></ColumnDefinition>
+									<ColumnDefinition Width="185"></ColumnDefinition>
+								</Grid.ColumnDefinitions>
+								
+								<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="20"/>
+								<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Sport.Name}" FontSize="20"/>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
@@ -92,7 +76,7 @@
 
 					<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 						<TextBlock Text="Default sport :" FontSize="20" Margin="0 0 25 0"></TextBlock>
-						<TextBlock Text="{Binding Club.Sport.Name}" Background="white" Height="40"  FontSize="20" Width="200"></TextBlock>
+						<TextBlock Text="{Binding Club.Sport.Name}" FontWeight="Bold" Foreground="DarkRed" Background="white" Height="40"  FontSize="20" Width="200"></TextBlock>
 					</StackPanel>
 
 					<StackPanel Grid.Row="2" VerticalAlignment="Center" >
@@ -102,12 +86,14 @@
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
 										<Rectangle Fill="{Binding Name}" Width="16" Height="16" Margin="0,2,5,2" />
-										<TextBlock Text="{Binding Name}" />
+										<TextBlock Text="{Binding Name}" FontSize="15"/>
 									</StackPanel>
 								</DataTemplate>
 							</ComboBox.ItemTemplate>
 						</ComboBox>
+
 					</StackPanel>
+
 				</Grid>
 
 

@@ -65,7 +65,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "clubs",
-								RequestContent = Context.Clubs.ToList(),
+								RequestContent = Context.Clubs.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -73,7 +73,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "sports",
-								RequestContent = Context.Sports.ToList(),
+								RequestContent = Context.Sports.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -91,7 +91,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "sports",
-								RequestContent = Context.Sports.ToList(),
+								RequestContent = Context.Sports.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -105,7 +105,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "clubs",
-								RequestContent = Context.Clubs.ToList(),
+								RequestContent = Context.Clubs.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -124,7 +124,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "sports",
-								RequestContent = Context.Sports.ToList(),
+								RequestContent = Context.Sports.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -139,7 +139,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "clubs",
-								RequestContent = Context.Clubs.ToList(),
+								RequestContent = Context.Clubs.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -158,7 +158,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "sports",
-								RequestContent = Context.Sports.ToList(),
+								RequestContent = Context.Sports.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
@@ -170,7 +170,7 @@ namespace Server.Communication
 							return new Request
 							{
 								RequestTarget = "clubs",
-								RequestContent = Context.Clubs.ToList(),
+								RequestContent = Context.Clubs.OrderBy(x => x.Name).ToList(),
 								RequestSuccess = true
 							};
 
