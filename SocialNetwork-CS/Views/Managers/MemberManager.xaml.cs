@@ -310,13 +310,19 @@ namespace SocialNetwork_CS.Views.Managers
 					{
 						Clubs.Add(clubMemberSport);
 					}
-
-					//foreach (Club memberClub in MemberClubs)
-					//{
-					//	if (!memberSport.Clubs.Contains(memberClub)) MemberClubs.Remove(memberClub);
-					//}
 				}
-				MemberClubs.Clear();
+
+				var memClubs = new List<Club>();
+				foreach (Club c in MemberClubs) memClubs.Add(c);
+
+				foreach (Club c in memClubs)
+				{
+					foreach (Club club in item.Clubs)
+					{
+						if (club.Id == c.Id)
+							MemberClubs.Remove(c);
+					}
+				}
 			}
 		}
 
@@ -329,6 +335,19 @@ namespace SocialNetwork_CS.Views.Managers
 				Member.FirstName != null &&
 				Member.Age != 0)
 			{
+				int counted;
+				foreach (Sport sport in MemberSports)
+				{
+					counted = 0;
+					foreach (Club club in MemberClubs)
+					{
+						foreach (Club sc in sport.Clubs)
+						{
+							if (sc.Id == club.Id) counted++;
+						}
+					}
+					if (counted == 0) return;
+				}
 				Member.Sports = MemberSports;
 				Member.Clubs = MemberClubs;
 
@@ -351,6 +370,19 @@ namespace SocialNetwork_CS.Views.Managers
 				Member.FirstName != null &&
 				Member.Age != 0)
 			{
+				int counted;
+				foreach (Sport sport in MemberSports)
+				{
+					counted = 0;
+					foreach (Club club in MemberClubs)
+					{
+						foreach (Club sc in sport.Clubs)
+						{
+							if (sc.Id == club.Id) counted++;
+						}
+					}
+					if (counted == 0) return;
+				}
 				Member.Sports = MemberSports;
 				Member.Clubs = MemberClubs;
 
@@ -383,14 +415,14 @@ namespace SocialNetwork_CS.Views.Managers
 			Member = new Member();
 			MemberClubs.Clear();
 			MemberSports.Clear();
+			Clubs.Clear();
+			Sports.Clear();
+			foreach (Sport s in AllSports) Sports.Add(s);
 		}
 
 		private void Unselect_Click(object sender, RoutedEventArgs e)
 		{
 			ClearFields();
-			Clubs.Clear();
-			Sports.Clear();
-			foreach (Sport s in AllSports) Sports.Add(s);
 		}
 	}
 }
