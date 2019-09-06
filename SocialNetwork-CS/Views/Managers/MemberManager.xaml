@@ -25,8 +25,19 @@
 					<RowDefinition Height="*"></RowDefinition>
 					<RowDefinition Height="120"></RowDefinition>
 				</Grid.RowDefinitions>
-				<Button Style="{StaticResource StdButtonStyle}" Content="Créer" HorizontalAlignment="Left" 
+
+				<Grid HorizontalAlignment="Center">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					
+					<Button Style="{StaticResource StdButtonStyle}" Content="Create" HorizontalAlignment="Left" 
 			  Margin="15 0" Click="CreateItem_Click"></Button>
+					<Button Grid.Column="1" Style="{StaticResource StdButtonStyle}" Content="Unselect" HorizontalAlignment="Left" 
+			  Margin="15 0" Click="Unselect_Click"></Button>
+				</Grid>
+				
 				<Border Width="370" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="White">
 					<Grid>
 						<Grid.ColumnDefinitions>

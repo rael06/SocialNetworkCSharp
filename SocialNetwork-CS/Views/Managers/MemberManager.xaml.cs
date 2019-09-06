@@ -204,12 +204,18 @@ namespace SocialNetwork_CS.Views.Managers
 			{
 				AllClubs = JsonConvert.DeserializeObject<ObservableCollection<Club>>(
 					_socketManager.ServerResponse.RequestContent.ToString());
+
+				Clubs.Clear();
+				foreach (Club c in AllClubs) Clubs.Add(c);
 			}
 
 			if (_socketManager.ServerResponse.RequestTarget == "sports")
 			{
 				AllSports = JsonConvert.DeserializeObject<ObservableCollection<Sport>>(
 					_socketManager.ServerResponse.RequestContent.ToString());
+
+				Sports.Clear();
+				foreach (Sport s in AllSports) Sports.Add(s);
 			}
 		}
 
@@ -235,6 +241,7 @@ namespace SocialNetwork_CS.Views.Managers
 					var filteredClub = AllClubs.FirstOrDefault(c => c.Id == club.Id);
 					Clubs.Remove(filteredClub);
 				}
+
 				foreach (Sport sport in MemberSports)
 				{
 					var filteredSport = AllSports.FirstOrDefault(s => s.Id == sport.Id);
@@ -260,6 +267,14 @@ namespace SocialNetwork_CS.Views.Managers
 			{
 				Sports.Remove(item);
 				MemberSports.Add(item);
+				Clubs.Clear();
+				foreach (Sport s in MemberSports)
+				{
+					foreach(Club c in s.Clubs)
+					{
+						Clubs.Add(c);
+					}
+				}
 			}
 		}
 
@@ -280,12 +295,42 @@ namespace SocialNetwork_CS.Views.Managers
 			{
 				Sports.Add(item);
 				MemberSports.Remove(item);
+				Clubs.Clear();
+				foreach (Sport memberSport in MemberSports)
+				{
+					foreach (Club clubMemberSport in memberSport.Clubs)
+					{
+						Clubs.Add(clubMemberSport);
+					}
+
+					//foreach (Club memberClub in MemberClubs)
+					//{
+					//	if (!memberSport.Clubs.Contains(memberClub)) MemberClubs.Remove(memberClub);
+					//}
+				}
 			}
 		}
 
 		private void CreateItem_Click(object sender, RoutedEventArgs e)
 		{
+			if (MemberClubs.Count != 0 &&
+				MemberSports.Count != 0 &&
+				Member.Id == 0 &&
+				Member.LastName != null &&
+				Member.FirstName != null &&
+				Member.Age != 0)
+			{
+				Member.Sports = MemberSports;
+				Member.Clubs = MemberClubs;
 
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "create",
+					RequestTarget = "member",
+					RequestContent = Member
+				});
+				ClearFields();
+			}
 		}
 
 		private void UpdateItem_Click(object sender, RoutedEventArgs e)
@@ -312,7 +357,16 @@ namespace SocialNetwork_CS.Views.Managers
 
 		private void DeleteItem_Click(object sender, RoutedEventArgs e)
 		{
-
+			if (Member.Id != 0)
+			{
+				_socketManager.RequestServer(new Request
+				{
+					RequestType = "delete",
+					RequestTarget = "member",
+					RequestContent = Member
+				});
+				ClearFields();
+			}
 		}
 
 		private void ClearFields()
@@ -320,6 +374,15 @@ namespace SocialNetwork_CS.Views.Managers
 			Member = new Member();
 			MemberClubs.Clear();
 			MemberSports.Clear();
+		}
+
+		private void Unselect_Click(object sender, RoutedEventArgs e)
+		{
+			ClearFields();
+			Clubs.Clear();
+			Sports.Clear();
+			foreach (Club c in AllClubs) Clubs.Add(c);
+			foreach (Sport s in AllSports) Sports.Add(s);
 		}
 	}
 }

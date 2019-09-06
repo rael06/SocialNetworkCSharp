@@ -114,6 +114,33 @@ namespace Server.Communication
 								RequestSuccess = true
 							};
 
+						case "member":
+							var memberFromClient = JsonConvert.DeserializeObject<Member>(request.RequestContent.ToString()) as Member;
+
+							var memberSportsToUpdate = new List<Sport>();
+							var memberClubsToUpdate = new List<Club>();
+
+							foreach (Sport sport in memberFromClient.Sports)
+							{
+								memberSportsToUpdate.Add(Context.Sports.Find(sport.Id) as Sport);
+							}
+							memberFromClient.Sports = memberSportsToUpdate;
+
+							foreach (Club club in memberFromClient.Clubs)
+							{
+								memberClubsToUpdate.Add(Context.Clubs.Find(club.Id) as Club);
+							}
+							memberFromClient.Clubs = memberClubsToUpdate;
+
+							Context.Members.Add(memberFromClient);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "members",
+								RequestContent = Context.Members.OrderBy(x => x.LastName).ToList(),
+								RequestSuccess = true
+							};
+
 						default:
 							return null;
 					}
@@ -204,6 +231,18 @@ namespace Server.Communication
 							{
 								RequestTarget = "clubs",
 								RequestContent = Context.Clubs.OrderBy(x => x.Name).ToList(),
+								RequestSuccess = true
+							};
+
+						case "member":
+							var memberFromClient = JsonConvert.DeserializeObject<Member>(request.RequestContent.ToString());
+							var memberToDelete = Context.Members.Find(memberFromClient.Id);
+							Context.Members.Remove(memberToDelete);
+							Context.SaveChanges();
+							return new Request
+							{
+								RequestTarget = "members",
+								RequestContent = Context.Members.OrderBy(x => x.LastName).ToList(),
 								RequestSuccess = true
 							};
 
