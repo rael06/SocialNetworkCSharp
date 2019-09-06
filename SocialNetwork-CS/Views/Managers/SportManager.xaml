@@ -38,6 +38,7 @@
 			</Grid>
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
+					<RowDefinition Height="50"></RowDefinition>
 					<RowDefinition Height="*"></RowDefinition>
 					<RowDefinition Height="50"></RowDefinition>
 				</Grid.RowDefinitions>
@@ -47,7 +48,46 @@
 					<TextBox Text="{Binding Sport.Name}" Height="40" VerticalContentAlignment="Center" FontSize="20" Width="250"></TextBox>
 				</StackPanel>
 
-				<StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+				<Grid Grid.Row="1" Margin="10 10">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+						<ColumnDefinition Width="*"></ColumnDefinition>
+					</Grid.ColumnDefinitions>
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"></RowDefinition>
+							<RowDefinition Height="*"></RowDefinition>
+						</Grid.RowDefinitions>
+						<TextBlock Text="Sport's clubs" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+						<ListView Grid.Row="1" Margin="10 0" ItemsSource="{Binding Sport.Clubs}">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<WrapPanel>
+										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="20"/>
+									</WrapPanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</Grid>
+					<Grid Grid.Column="1">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"></RowDefinition>
+							<RowDefinition Height="*"></RowDefinition>
+						</Grid.RowDefinitions>
+						<TextBlock Text="Sport's members" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+						<ListView Grid.Row="1" Margin="10 0" ItemsSource="{Binding Sport.Members}">
+							<ListView.ItemTemplate>
+								<DataTemplate>
+									<WrapPanel>
+										<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Name}" FontSize="20"/>
+									</WrapPanel>
+								</DataTemplate>
+							</ListView.ItemTemplate>
+						</ListView>
+					</Grid>
+				</Grid>
+
+				<StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
 					<Button Style="{StaticResource StdButtonStyle}" Content="Delete" Margin="0 0 50 0" Click="DeleteItem_Click"></Button>
 					<Button Style="{StaticResource StdButtonStyle}" Content="Update" Click="UpdateItem_Click"></Button>
 				</StackPanel>
